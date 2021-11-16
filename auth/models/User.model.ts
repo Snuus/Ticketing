@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-
-
+import bcrypt from 'bcrypt'
+import config from 'config'
 // An interface that describes the properties
 // that are required to create a new User
 interface Attributes {
@@ -20,8 +20,13 @@ interface UserModel extends mongoose.Model<UserDoc> {
 export interface UserDoc extends mongoose.Document {
   email: string;
   password: string;
+  createdAt: Date;
+  updatedAt: Date;
+  comparePassword(candidatePassword: string): Promise<boolean>
 
 }
+
+
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -33,11 +38,41 @@ const userSchema = new mongoose.Schema({
     required: true
   }
 
+}, {
+  timestamps: true
 })
+
+
+userSchema.pre("save", async function (next) {
+  let user = this as UserDoc
+
+  if (!user.isModified('password')) {
+    return next();
+  }
+  const salt = await bcrypt.genSalt(config.get<number>('saltWorkFactor'));
+
+  const hash = await bcrypt.hashSync(user.password, salt);
+
+  user.password = hash;
+
+  return next();
+})
+
+
+
+userSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
+  const user = this as UserDoc
+
+  return bcrypt.compare(candidatePassword, user.password).catch((e) => false);
+}
+
 
 userSchema.statics.build = (attrs: Attributes) => {
   return new User(attrs)
 }
+
+
+
 
 const User = mongoose.model<UserDoc, UserModel>('user', userSchema)
 

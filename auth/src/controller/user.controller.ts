@@ -6,7 +6,7 @@ import { createUser } from '../services/user.service'
 import logger from '../utils/logger'
 
 
-export async function createUserHandler(req: Request, res: Response, next: NextFunction) {
+export async function createUserHandler(req: Request, res: Response) {
   try {
 
     const user = await createUser(req.body) // call create user service 
