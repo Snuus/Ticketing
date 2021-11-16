@@ -12,9 +12,9 @@ exports.validateUser = [
     .withMessage('Password must be between 4 and 20 characters'),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty())
+    if (!errors.isEmpty()) {
       throw new RequestValidationError(errors.array())
-
+    }
 
     next();
 
