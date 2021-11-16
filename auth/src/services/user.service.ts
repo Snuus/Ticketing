@@ -1,23 +1,25 @@
 
-import { DocumentDefinition, FilterQuery } from "mongoose";
-import User from '../../models/User.model'
+import { DocumentDefinition } from "mongoose";
+
+import User, { UserDoc } from '../../models/User.model'
+  ;
 
 
-export async function createUser({ email, password }: { email: string, password: string }) {
-  try {
+export async function createUser(input: DocumentDefinition<UserDoc>) {
 
-    console.log(email)
-    const existingUser = await User.findOne({ email: email })
-    console.log(existingUser)
-    if (existingUser) {
-      console.log(existingUser)
-      return false
-    }
-    const user = User.build({ email, password })
-    await user.save()
-    return user.toJSON()
 
-  } catch (e: any) {
-    throw new Error(e)
+  const { email, password } = input
+  const existingUser = await User.findOne({ email })
+
+  if (existingUser) {
+    throw 'Email already taken'
   }
+
+
+
+  const user = User.build({ email, password })
+  await user.save()
+  return user
+
+
 }
