@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt'
 import config from 'config'
+
 // An interface that describes the properties
 // that are required to create a new User
 interface Attributes {
@@ -35,7 +36,8 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    select: false,
   }
 
 }, {

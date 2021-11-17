@@ -5,14 +5,13 @@ import config from 'config'
 import logger from './utils/logger'
 import routes from '../routes'
 import { errorHandler } from './middlewares/error-handler'
-import { NotFoundError } from './errors/not-found-error'
+import cookieSession from 'cookie-session'
 
 
 const port = config.get<number>('port')
 
 const app = express()
-
-app.use(express.json())
+app.set('trust proxy', true)
 
 
 
@@ -24,6 +23,13 @@ app.listen(port, async () => {
   logger.info('Listening on port 3000!!')
 
   await connect()
+  app.use(express.json())
+  app.use(cookieSession({
+    signed: false,
+    secure: true,
+
+  }))
+
 
   routes(app)
 
