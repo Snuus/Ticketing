@@ -21,7 +21,9 @@ app.set('trust proxy', true)
 
 app.listen(port, async () => {
   logger.info('Listening on port 3000!!')
-
+  if (!process.env.JWT_KEY) {
+    throw new Error('JWT_KEY not defined')
+  }
   await connect()
   app.use(express.json())
   app.use(cookieSession({
