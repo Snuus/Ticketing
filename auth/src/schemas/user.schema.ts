@@ -20,3 +20,23 @@ exports.validateUser = [
 
   },
 ];
+
+
+exports.validateLogin = [
+  check('email')
+    .isEmail()
+    .withMessage('Email must be valid'),
+  check('password')
+    .trim()
+    .notEmpty()
+    .withMessage('You must provide a password'),
+  (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      throw new RequestValidationError(errors.array())
+    }
+
+    next();
+
+  },
+];
