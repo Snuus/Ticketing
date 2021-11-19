@@ -1,16 +1,14 @@
-
-import { Request, Response, NextFunction } from 'express'
-import { BadRequestError } from '../errors/bad-request-error'
+import { Request, Response, NextFunction } from "express";
+import { BadRequestError } from "../errors/bad-request-error";
 import config from "config";
-import { createUser } from '../services/user.service'
-import { signJwt } from '../utils/jwt.utils'
-import logger from '../utils/logger'
-import jwt from 'jsonwebtoken'
+import { createUser } from "../services/user.service";
+import { signJwt } from "../utils/jwt.utils";
+import logger from "../utils/logger";
+import jwt from "jsonwebtoken";
 
 export async function createUserHandler(req: Request, res: Response) {
   try {
-
-    const user = await createUser(req.body) // call create user service 
+    const user = await createUser(req.body); // call create user service
 
     const userJwt = signJwt(
       { user },
@@ -18,17 +16,14 @@ export async function createUserHandler(req: Request, res: Response) {
     );
 
     req.session = {
-      jwt: userJwt
-    }
+      jwt: userJwt,
+    };
 
-
-    return res.send(userJwt)
+    return res.send(user);
   } catch (e: any) {
     //custom console log
-    logger.error(e)
-    // send error to client 
-    throw new BadRequestError(e)
-
-
+    logger.error(e);
+    // send error to client
+    throw new BadRequestError(e);
   }
 }
