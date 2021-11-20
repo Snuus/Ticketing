@@ -37,15 +37,15 @@ export async function loginUser(input: DocumentDefinition<UserDoc>) {
     throw 'You have no account yet'
   }
 
-  const validUser = await user.comparePassword(password)
-  console.log(validUser)
-  if (!validUser) {
+  const passwordMatch = await user.comparePassword(password)
+
+  if (!passwordMatch) {
     throw 'Email or password do not match'
   }
 
 
 
-  return validUser
+  return user
 
 
 }
