@@ -43,20 +43,7 @@ export async function loginUser(input: DocumentDefinition<UserDoc>) {
     throw 'Email or password do not match'
   }
 
-
-
   return user
-
 
 }
 
-
-export async function getUser(jwt: string) {
-
-  const user = verifyJwt(jwt)
-
-
-  return user
-
-
-}
