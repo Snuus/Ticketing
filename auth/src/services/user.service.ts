@@ -2,7 +2,7 @@
 import { DocumentDefinition } from "mongoose";
 
 import User, { UserDoc } from '../../models/User.model'
-import jwt from 'jsonwebtoken'
+
 import { verifyJwt } from "../utils/jwt.utils";
 
 
@@ -43,6 +43,17 @@ export async function loginUser(input: DocumentDefinition<UserDoc>) {
     throw 'Email or password do not match'
   }
 
+
+
+  return user
+
+
+}
+
+
+export async function getUser(jwt: string) {
+
+  const user = verifyJwt(jwt)
 
 
   return user

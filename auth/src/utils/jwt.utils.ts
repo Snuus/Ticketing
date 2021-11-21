@@ -18,21 +18,11 @@ export function signJwt(object: Object, options?: jwt.SignOptions | undefined) {
 
 export function verifyJwt(token: string) {
 
-  try {
-    console.log(token)
-    const decoded = jwt.verify(token, Secret as string)
 
-    return {
-      valid: true,
-      expired: false,
-      decoded
-    }
-  } catch (e: any) {
-    console.error(e);
-    return {
-      valid: false,
-      expired: e.message === 'jwt expired',
-      decoded: null
-    }
-  }
+
+  const decoded = jwt.verify(token, Secret as string)
+
+  return decoded
+
+
 }
