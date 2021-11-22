@@ -56,7 +56,7 @@ export async function loginUserHandler(req: Request, res: Response) {
 export async function currentUserHandler(req: Request, res: Response) {
   try {
 
-    return res.status(200).send({ user: req.user || null });
+    return res.status(200).send(req.user || null);
   } catch (e: any) {
     //custom console log
     logger.error(e);
