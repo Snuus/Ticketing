@@ -1,42 +1,26 @@
-import express from 'express'
-import 'express-async-errors'
 import connect from './utils/connect'
 import config from 'config'
 import logger from './utils/logger'
-import routes from '../routes'
-import { errorHandler } from './middlewares/error-handler'
-import cookieSession from 'cookie-session'
+
+import createServer from './app'
 
 
 const port = config.get<number>('port')
 
-const app = express()
-app.set('trust proxy', true)
 
 
 
-
-
-
-
+const app = createServer()
 app.listen(port, async () => {
   logger.info('Listening on port 3000!!')
   if (!process.env.JWT_KEY) {
     throw new Error('JWT_KEY not defined')
   }
   await connect()
-  app.use(express.json())
-  app.use(cookieSession({
-    signed: false,
-    secure: true,
-
-  }))
 
 
-  routes(app)
 
-  // Error Handling
-  app.use(errorHandler)
+
 
 
 

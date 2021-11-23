@@ -19,7 +19,7 @@ export async function createUserHandler(req: Request, res: Response) {
       jwt: userJwt,
     };
 
-    return res.status(200).send({ user: user });
+    return res.status(201).send({ user: user });
   } catch (e: any) {
     //custom console log
     logger.error(e);
