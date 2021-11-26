@@ -2,22 +2,22 @@ import { NextPage } from 'next';
 import React from 'react'
 import { useState } from 'react'
 import axios from 'axios'
-
+import useRequest from '../../hooks/use-request'
 const Signup: NextPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState<any[]>([])
+
+  const { request, errors } = useRequest({
+    url: '/api/users/signup',
+    method: 'post',
+    body: {
+      email, password
+    }
+  })
 
   const onSubmit = async (event: React.FormEvent) => {
-    try {
-      event.preventDefault()
-      const response = await axios.post('/api/users/signup', {
-        email, password
-      })
-    } catch (err: any) {
-      setErrors(err.response.data.errors)
-
-    }
+    event.preventDefault()
+    request()
 
   }
 
@@ -28,7 +28,7 @@ const Signup: NextPage = () => {
       <div className="form-group">
         <label>Email Adress</label>
         <input type="text" className="form-control" onChange={(e) => setEmail(e.target.value)} />
-        {errors.length > 0 &&
+        {errors &&
           <div className="my-0  ">
             {errors.filter(err => err.field === 'email').map(err => (
               <p className="alert alert-danger" key={err.message}>
@@ -41,7 +41,7 @@ const Signup: NextPage = () => {
       <div className="form-group">
         <label>Password</label>
         <input type="password" className="form-control" onChange={(e) => setPassword(e.target.value)} />
-        {errors.length > 0 &&
+        {errors &&
           <div className="my-0  ">
             {errors.filter(err => err.field === 'password').map(err => (
               <p className="alert alert-danger" key={err.message}>
