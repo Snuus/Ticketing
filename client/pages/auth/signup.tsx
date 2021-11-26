@@ -1,9 +1,12 @@
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import React from 'react'
 import { useState } from 'react'
-import axios from 'axios'
 import useRequest from '../../hooks/use-request'
+
+
 const Signup: NextPage = () => {
+  const router = useRouter()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -12,7 +15,8 @@ const Signup: NextPage = () => {
     method: 'post',
     body: {
       email, password
-    }
+    },
+    onSucces: () => router.push('/')
   })
 
   const onSubmit = async (event: React.FormEvent) => {
