@@ -17,10 +17,10 @@ const Home: NextPage = ({ user }) => {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   try {
-    const response = axios.get('http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser', {
+    const response = await axios.get('http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser', {
       headers: ctx.req.headers
     })
-    console.log(response.data)
+
     return {
       props: response.data
     };
