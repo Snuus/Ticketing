@@ -4,8 +4,11 @@ import routes from "../routes";
 import { errorHandler } from "./middlewares/error-handler";
 import cookieSession from "cookie-session";
 
+
+
 function createServer() {
   const app = express();
+
   app.set("trust proxy", true);
   app.use(express.json());
   app.use(
