@@ -20,7 +20,7 @@ const Home: NextPage = () => {
       ) : (
         <h1>Not signed in</h1>
       )}
-      <button onClick={logout}>logout</button>
+
     </div>
 
 
