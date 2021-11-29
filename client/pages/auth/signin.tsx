@@ -2,6 +2,7 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react'
 import { useState } from 'react'
+import { useAuth } from '../../contexts/AuthContext.';
 import useRequest from '../../hooks/use-request'
 
 
@@ -9,20 +10,16 @@ const Signup: NextPage = () => {
   const router = useRouter()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { login, errors } = useAuth()
 
-  const { request, errors } = useRequest({
-    url: '/api/users/signin',
-    method: 'post',
-    body: {
-      email, password
-    },
-    onSucces: () => router.push('/')
-  })
 
-  console.log(request)
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    request()
+    const status = await login(email, password)
+
+    if (status === 200) {
+      router.push('/')
+    }
 
   }
 

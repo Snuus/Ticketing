@@ -10,7 +10,8 @@ import styles from '../styles/Home.module.css'
 
 
 
-const Home: NextPage = ({ user }) => {
+const Home: NextPage = () => {
+  const { user, logout } = useAuth();
 
   return (
     <div className={styles.container}>
@@ -19,27 +20,14 @@ const Home: NextPage = ({ user }) => {
       ) : (
         <h1>Not signed in</h1>
       )}
+      <button onClick={logout}>logout</button>
     </div>
+
+
   )
 };
 
 
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-
-  try {
-    const response = await axios.get('http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser', {
-      headers: ctx.req.headers
-    })
-
-    return {
-      props: response.data
-    };
-  } catch (error: any) {
-    return { props: { errors: error.message } }
-  }
-
-};
 
 
 export default Home
