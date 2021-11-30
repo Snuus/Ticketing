@@ -4,6 +4,13 @@ import { useAuth } from '../contexts/AuthContext.'
 export default function Header() {
   const { user, logout } = useAuth()
 
+  type Links = {
+    label: string;
+    href: string;
+    onclick: any;
+  }
+
+
   const links = [
     !user && { label: 'Sign Up', href: '/auth/signup', onclick: null },
     !user && { label: 'Sign In', href: '/auth/signin', onclick: null },

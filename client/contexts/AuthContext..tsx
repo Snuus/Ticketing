@@ -1,8 +1,16 @@
 import axios from "axios";
 import { createContext, useContext, ReactNode, useState, useEffect } from "react";
 import Cookies from 'js-cookie'
+
+
+type User = {
+  id: string,
+  email: string
+}
+
+
 type authContextType = {
-  user: Object | null;
+  user: User | null;
   errors: any[];
   login: (email: string, password: string) => number | null;
   signup: (email: string, password: string) => number | null;
@@ -34,17 +42,12 @@ export function AuthProvider({ children }: Props) {
 
   useEffect(() => checkUserLoggedIn(), []);
 
-
   const checkUserLoggedIn = async () => {
-
 
     try {
       const res = await axios.get('/api/users/currentuser', {
         withCredentials: true,
-
       })
-
-
       if (res.data.user) {
         setUser(res.data.user);
       } else {
@@ -55,29 +58,19 @@ export function AuthProvider({ children }: Props) {
     }
   };
 
-
-
   const login = async (email: string, password: string) => {
     try {
       const res = await axios.post('/api/users/signin', {
         headers: { 'Content-Type': 'application/json' },
         email,
         password
-
       })
-
       setUser(res.data.user)
-
-
       return res.status
     } catch (err: any) {
       setErrors(err.response.data.errors)
     }
-
-
-
   }
-
 
   const signup = async (email: string, password: string) => {
     try {
@@ -85,20 +78,13 @@ export function AuthProvider({ children }: Props) {
         headers: { 'Content-Type': 'application/json' },
         email,
         password
-
       })
-
       setUser(res.data.user)
       return res.status
     } catch (err: any) {
       setErrors(err.response.data.errors)
     }
-
-
-
   }
-
-
 
   const logout = async () => {
     try {
