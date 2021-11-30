@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { check, validationResult } from 'express-validator';
-import { RequestValidationError } from '../errors/request-validation-error'
+import { RequestValidationError } from '@tickis/common'
 
 exports.validateUser = [
   check('email')

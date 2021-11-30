@@ -3,7 +3,7 @@ import { DocumentDefinition } from "mongoose";
 
 import User, { UserDoc } from '../../models/User.model'
 
-import { verifyJwt } from "../utils/jwt.utils";
+
 
 
 

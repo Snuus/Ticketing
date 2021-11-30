@@ -1,10 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import { BadRequestError } from "../errors/bad-request-error";
+//Comes from our npm pack
+import { BadRequestError } from "@tickis/common";
 import config from "config";
 import { createUser, loginUser } from "../services/user.service";
-import { signJwt } from "../utils/jwt.utils";
+import { signJwt } from "@tickis/common";
 import logger from "../utils/logger";
-import jwt from "jsonwebtoken";
+
 
 export async function createUserHandler(req: Request, res: Response) {
   try {

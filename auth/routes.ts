@@ -1,13 +1,12 @@
-import { Express, Request, Response } from "express";
+import { Express } from "express";
 import {
   createUserHandler,
   currentUserHandler,
   loginUserHandler,
   signoutUserHandler,
 } from "./src/controller/user.controller";
-import { NotFoundError } from "./src/errors/not-found-error";
-import { requireAuth } from "./src/middlewares/require-auth";
-import requireUser from "./src/middlewares/require-user";
+import { NotFoundError, requireAuth, requireUser } from "@tickis/common";
+
 const { validateUser, validateLogin } = require("./src/schemas/user.schema");
 
 function routes(app: Express) {
