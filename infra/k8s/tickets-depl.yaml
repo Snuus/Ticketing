@@ -1,0 +1,38 @@
+#Pod Creation
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tickets
+spec: 
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: tickets
+  template:
+    metadata:
+       labels:
+        app: tickets
+    spec:
+       containers:
+         - name: tickets
+           image: snuus/tickets
+           env: 
+             - name: JWT_KEY
+               valueFrom:
+                 secretKeyRef: 
+                    name: jwt-key
+                    key: JWT_KEY
+---
+#Cluster IP
+apiVersion: v1
+kind: Service
+metadata:
+  name: tickets-srv
+spec:
+  selector:
+    app: tickets
+  ports: 
+    - name: tickets
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

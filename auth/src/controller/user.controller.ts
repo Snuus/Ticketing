@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 //Comes from our npm pack
-import { BadRequestError } from "@tickis/common";
+import { BadRequestError, signJwt } from "@tickis/common";
 import config from "config";
 import { createUser, loginUser } from "../services/user.service";
-import { signJwt } from "@tickis/common";
+
 import logger from "../utils/logger";
 
 
