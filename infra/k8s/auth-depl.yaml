@@ -17,6 +17,8 @@ spec:
          - name: auth
            image: snuus/auth
            env: 
+             - name: MONGO_URI
+               value: 'mongodb://auth-mongo-srv:27017/auth_v1'
              - name: JWT_KEY
                valueFrom:
                  secretKeyRef: 

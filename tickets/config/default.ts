@@ -1,6 +1,6 @@
 export default {
   port: 3000,
-  dbUri: 'mongodb://auth-mongo-srv:27017/auth_v1',
+  dbUri: process.env.MONGO_URI,
   saltWorkFactor: 10,
   accessTokenTtl: "15m",
   refreshTokenTtl: "1y",
