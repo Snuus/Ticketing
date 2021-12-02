@@ -2,10 +2,13 @@ import mongoose from "mongoose";
 import request from "supertest";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import createServer from "../../src/app";
+import { signJwt } from "@tickis/common";
+import config from "config";
+
 
 const app = createServer();
 declare global {
-  var signin: () => Promise<string[]>;
+  var signin: () => string[];
 }
 
 let mongoServer: any;
@@ -32,19 +35,29 @@ afterAll(async () => {
 });
 
 
-global.signin = async () => {
-  const email = 'test@test.com';
-  const password = 'password';
+global.signin = () => {
+  // Build a jwt payload. { id, email}
+  const payload = {
+    id: 'aasdadad',
+    email: 'robin@test.com'
 
-  const response = await request(app)
-    .post('/api/users/signup')
-    .send({
-      email, password
-    })
-    .expect(201)
+  }
 
-  const cookie = response.get('Set-Cookie')
+  const token = signJwt(
+    { payload },
+    { expiresIn: config.get("accessTokenTtl") } // 15 minutes)
+  );
 
-  return cookie;
+  const session = { jwt: token }
+
+
+  const sessionJSON = JSON.stringify(session)
+
+
+  const base64 = Buffer.from(sessionJSON).toString('base64')
+
+  return [`express:sess=${base64}`]
+
+
 }
 

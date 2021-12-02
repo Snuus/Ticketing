@@ -1,7 +1,7 @@
 import express from "express";
 import "express-async-errors";
 
-import { errorHandler, NotFoundError } from "@tickis/common";
+import { errorHandler, NotFoundError, requireUser } from "@tickis/common";
 import cookieSession from "cookie-session";
 import { createTicketRouter } from "./routes/new";
 
@@ -18,6 +18,7 @@ function createServer() {
     })
   );
 
+  app.use(requireUser)
   app.use(createTicketRouter)
 
   app.all("*", async (req, res) => {
