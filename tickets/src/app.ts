@@ -1,8 +1,9 @@
 import express from "express";
 import "express-async-errors";
-import routes from "../routes";
-import { errorHandler } from "@tickis/common";
+
+import { errorHandler, NotFoundError } from "@tickis/common";
 import cookieSession from "cookie-session";
+import { createTicketRouter } from "./routes/new";
 
 
 function createServer() {
@@ -17,7 +18,11 @@ function createServer() {
     })
   );
 
-  routes(app);
+  app.use(createTicketRouter)
+
+  app.all("*", async (req, res) => {
+    throw new NotFoundError();
+  });
 
   // Error Handling
   app.use(errorHandler);

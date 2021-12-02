@@ -1,4 +1,4 @@
-import { Express } from "express";
+import { Express, Request, Response } } from "express";
 import {
   createUserHandler,
   currentUserHandler,
@@ -23,7 +23,7 @@ function routes(app: Express) {
 
   app.post("/api/users/signout", signoutUserHandler);
 
-  app.all("*", async (req, res) => {
+  app.all("*", async (req: Request, res: Response) => {
     throw new NotFoundError();
   });
 }
