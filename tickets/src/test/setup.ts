@@ -37,14 +37,14 @@ afterAll(async () => {
 
 global.signin = () => {
   // Build a jwt payload. { id, email}
-  const payload = {
+  const user = {
     id: 'aasdadad',
     email: 'robin@test.com'
 
   }
 
   const token = signJwt(
-    { payload },
+    user,
     { expiresIn: config.get("accessTokenTtl") } // 15 minutes)
   );
 

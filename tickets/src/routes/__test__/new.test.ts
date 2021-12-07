@@ -1,4 +1,5 @@
 import request from "supertest";
+import Ticket from "../../../models/Ticket.model";
 import createServer from "../../app";
 
 const app = createServer();
@@ -71,6 +72,9 @@ it('returns error if invalod price is provided', async () => {
 
 
 it('creates a ticket with valid inputs', async () => {
+  let tickets = await Ticket.find({})
+  expect(tickets.length).toEqual(0)
+
   await request(app)
     .post('/api/tickets')
     .set('Cookie', global.signin())
@@ -78,5 +82,10 @@ it('creates a ticket with valid inputs', async () => {
       title: 'title',
       price: 10
     })
-    .expect(200)
+    .expect(201)
+
+  tickets = await Ticket.find({})
+  expect(tickets.length).toEqual(1)
+  expect(tickets[0].price).toEqual(10)
+  expect(tickets[0].title).toEqual('title')
 })
